@@ -1,28 +1,53 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { connect } from 'react-redux';
+import UsersList from './components/UsersList';
 import './App.css';
+import Axios from 'axios';
 
 class App extends Component {
+  onHandleChange = (e) => {
+    let { dispatch } = this.props;
+    dispatch({ type: 'UPDATE_USERNAME', username: e.target.value })
+  }
+
+  onUserSearch = () => {
+    let { dispatch } = this.props;
+    let { username } = this.props;
+    fetch(`https://api.github.com/users/${username}`)
+          .then(res => {
+            return res.json();
+          })          
+          .then(res => {
+            dispatch({ type: 'UPDATE_USERPROFILE', userprofile: res })
+          })
+  }
+  
   render() {
+    let { userprofile } = this.props;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <h1>Github Users</h1>
+        <p>{ this.props.username }</p>
+        <input type="text" 
+          onChange = { this.onHandleChange }
+          value = { this.props.user }
+        />
+        <button onClick = { this.onUserSearch }>Search</button>
+        <hr/>
+        <p>{ userprofile.name }</p>
+        <p>{ userprofile.location }</p>
+        <UsersList />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    username: state.username,
+    userprofile: state.userprofile,
+    repos: state.repos
+  }
+}
+
+export default connect(mapStateToProps, null)(App);
