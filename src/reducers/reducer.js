@@ -1,24 +1,17 @@
-import Redux from 'redux';
-
 let initialState = {
     username: '',
     userprofile: {},
+    users: [],
     repos: []
 }
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case 'UPDATE_USERNAME':
-        return {
-            ...state, 
-            username: action.username
-                        
-        }
-        break;
-        case 'UPDATE_USERPROFILE':
+        
+        case 'GET_USERS':        
         return {
             ...state,
-            userprofile: action.userprofile
+            users: action.users
         }
         default:
             return state;
