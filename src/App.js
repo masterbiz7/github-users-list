@@ -12,7 +12,7 @@ class App extends Component {
   getUsers = () => {
     let { dispatch } = this.props;
     
-    fetch(`https://api.github.com/search/users?q=${city}`)
+    fetch(`https://api.github.com/search/users?q=${city}&per_page=10`)
       .then(res => { return res.json() })
       .then(res => {
         return res.items.map((result) => {
@@ -34,9 +34,8 @@ class App extends Component {
     return (
       <React.Fragment>
         <Title>Топ пользователей GitHub, город {city}</Title>
-        {users.map((user, i) => {
-          i = i+1;
-         while ( i < 11 ) {
+        {users.map((user) => {
+          
           console.log (i);
           return (
             <Container key={user.id}>
@@ -49,10 +48,8 @@ class App extends Component {
               </Section>
              
             </Container>
-          );}
+          );
         })}
-
-
       </React.Fragment>
     )
   }
