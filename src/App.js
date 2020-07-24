@@ -34,9 +34,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Title>Топ пользователей GitHub, город {city}</Title>
-        {users.map((user) => {
-          
-          console.log (i);
+        {users.map((user) => {          
           return (
             <Container key={user.id}>
               
